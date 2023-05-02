@@ -25,9 +25,17 @@ class JurosCompostos(App):
         self.aporte_mensal = TextInput(multiline=False)
         layout.add_widget(self.aporte_mensal)
 
-        layout.add_widget(Label(text="Valor Futuro:"))
-        self.valor_futuro = Label(text="")
-        layout.add_widget(self.valor_futuro)
+        layout.add_widget(Label(text="Valor Investido:"))
+        self.valor_investido = Label(text="")
+        layout.add_widget(self.valor_investido)
+
+        layout.add_widget(Label(text="Valor em Juros:"))
+        self.valor_juros = Label(text="")
+        layout.add_widget(self.valor_juros)
+
+        layout.add_widget(Label(text="Valor Final:"))
+        self.valor_final = Label(text="")
+        layout.add_widget(self.valor_final)
 
         calcular = Button(text="Calcular", on_press=self.calcular_juros)
         layout.add_widget(calcular)
@@ -43,8 +51,11 @@ class JurosCompostos(App):
         # Fórmula de juros compostos com aportes mensais: Vf = P * (1 + r/n) ^ (n*t) + m * [((1 + r/n) ^ (n*t) - 1) / (r/n)]
         n = 12 # número de vezes que o juros é aplicado por ano, para este exemplo usaremos mensal
         vf = p * (1 + (r/100)/n) ** (n*t) + m * (((1 + (r/100)/n) ** (n*t) - 1) / ((r/100)/n))
-
-        self.valor_futuro.text = str(round(vf, 2))
+        juros = vf - p - m * (t * 12)
+        
+        self.valor_investido.text = "R$ {:.2f}".format(p)
+        self.valor_juros.text = "R$ {:.2f}".format(juros)
+        self.valor_final.text = "R$ {:.2f}".format(vf)
 
 if __name__ == '__main__':
     JurosCompostos().run()
